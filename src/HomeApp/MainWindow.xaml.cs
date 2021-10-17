@@ -1,7 +1,5 @@
 ﻿using HomeApp.Plugins;
-using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace HomeApp
 {
@@ -10,21 +8,18 @@ namespace HomeApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly List<IPlugin> _plugins;
+        private readonly PluginView _pluginView = new();
 
         public MainWindow()
         {
-            _plugins = PluginService.GetPlugins();
+            _pluginView.OnSelectPlugin += HandleSelectPlugin;
             InitializeComponent();
-            dataGrid.ItemsSource = _plugins;
+            frame.Content = _pluginView;
         }
 
-        private void DataGridRow_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void HandleSelectPlugin(IPlugin plugin)
         {
-            IPlugin plugin = (sender as DataGridRow).Item as IPlugin;
-            UserControl control = plugin.Load();
-
-            GetWindow(this).Content = control;
+            frame.Content = plugin;
         }
     }
 }
