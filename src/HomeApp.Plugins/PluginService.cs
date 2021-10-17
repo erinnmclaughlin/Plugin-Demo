@@ -8,25 +8,15 @@ namespace HomeApp.Plugins
 {
     public class PluginService
     {
-        public static List<IPlugin> GetPlugins()
+        public static List<Type> GetPluginTypes()
         {
-            List<IPlugin> plugins = new();
-
             string[] files = Directory.GetFiles("Extensions", "*.dll");
 
-            foreach (string file in files)
+            return files.SelectMany(x =>
             {
-                Assembly assembly = Assembly.LoadFile(Path.Combine(Directory.GetCurrentDirectory(), file));
-                IEnumerable<Type> pluginTypes = assembly.GetTypes().Where(t => typeof(IPlugin).IsAssignableFrom(t) && !t.IsInterface);
-
-                foreach (Type pluginType in pluginTypes)
-                {
-                    IPlugin plugin = Activator.CreateInstance(pluginType) as IPlugin;
-                    plugins.Add(plugin);
-                }
-            }
-
-            return plugins;
+                Assembly assembly = Assembly.LoadFile(Path.Combine(Directory.GetCurrentDirectory(), x));
+                return assembly.GetTypes().Where(t => typeof(IPlugin).IsAssignableFrom(t) && !t.IsInterface);
+            }).ToList();
         }
     }
 }

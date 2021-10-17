@@ -1,6 +1,6 @@
 ﻿using HomeApp.Plugins;
 using System.Collections.Generic;
-using System.Windows;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -17,9 +17,9 @@ namespace HomeApp
 
         public event PluginClickHandler OnSelectPlugin;
 
-        public PluginView()
+        public PluginView(IEnumerable<IPlugin> plugins)
         {
-            _plugins = PluginService.GetPlugins();
+            _plugins = plugins.ToList();
             InitializeComponent();
             dataGrid.ItemsSource = _plugins;
         }

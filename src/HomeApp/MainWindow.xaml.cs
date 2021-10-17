@@ -8,10 +8,11 @@ namespace HomeApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly PluginView _pluginView = new();
+        private readonly PluginView _pluginView;
 
-        public MainWindow()
+        public MainWindow(PluginView pluginView)
         {
+            _pluginView = pluginView;
             _pluginView.OnSelectPlugin += HandleSelectPlugin;
             InitializeComponent();
             frame.Content = _pluginView;
