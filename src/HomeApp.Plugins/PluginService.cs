@@ -10,13 +10,21 @@ namespace HomeApp.Plugins
     {
         public static List<Type> GetPluginTypes()
         {
-            string[] files = Directory.GetFiles("Extensions", "*.dll");
-
-            return files.SelectMany(x =>
+            try
             {
-                Assembly assembly = Assembly.LoadFile(Path.Combine(Directory.GetCurrentDirectory(), x));
-                return assembly.GetTypes().Where(t => typeof(IPlugin).IsAssignableFrom(t) && !t.IsInterface);
-            }).ToList();
+                string[] files = Directory.GetFiles("Extensions", "*.dll");
+
+                return files.SelectMany(x =>
+                {
+                    Assembly assembly = Assembly.LoadFile(Path.Combine(Directory.GetCurrentDirectory(), x));
+                    return assembly.GetTypes().Where(t => typeof(IPlugin).IsAssignableFrom(t) && !t.IsInterface);
+                }).ToList();
+            }
+            catch
+            {
+                return new List<Type>();
+            }
+            
         }
     }
 }
