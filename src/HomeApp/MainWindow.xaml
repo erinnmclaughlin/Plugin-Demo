@@ -7,6 +7,37 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Frame x:Name="frame" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="SlateGray">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Foreground="White"
+                       Grid.Column="1"
+                       Margin="0 0 10 0"
+                       VerticalAlignment="Center"
+                       x:Name="greetingText" />
+            
+            <Button Background="LightBlue"
+                Grid.Column="2" 
+                Height="30"
+                Padding="10 0"
+                VerticalAlignment="Center"
+                Margin="0 0 10 0"
+                x:Name="loginLogoutButton" 
+                Click="loginLogoutButton_Click"/>
+
+        </Grid>
+        
+
+
+        <Frame Grid.Row="1" x:Name="frame" />
     </Grid>
 </Window>

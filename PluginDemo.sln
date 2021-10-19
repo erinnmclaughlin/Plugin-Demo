@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomeApp", "src\HomeApp\Home
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomeApp.Plugins", "src\HomeApp.Plugins\HomeApp.Plugins.csproj", "{E904BEC4-1DD8-4D53-B755-F2AF6773A53A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreetingPlugin", "src\GreetingPlugin\GreetingPlugin.csproj", "{93D07F9B-7961-4C55-AD37-F6C674A6907C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreetingPlugin", "src\GreetingPlugin\GreetingPlugin.csproj", "{93D07F9B-7961-4C55-AD37-F6C674A6907C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeApp.Domain", "src\HomeApp.Domain\HomeApp.Domain.csproj", "{4B1C0CB2-364B-4226-8225-AF4A5689387C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{93D07F9B-7961-4C55-AD37-F6C674A6907C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93D07F9B-7961-4C55-AD37-F6C674A6907C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93D07F9B-7961-4C55-AD37-F6C674A6907C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B1C0CB2-364B-4226-8225-AF4A5689387C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B1C0CB2-364B-4226-8225-AF4A5689387C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B1C0CB2-364B-4226-8225-AF4A5689387C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B1C0CB2-364B-4226-8225-AF4A5689387C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

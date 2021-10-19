@@ -1,4 +1,8 @@
-﻿using HomeApp.Plugins;
+﻿using HomeApp.Db;
+using HomeApp.Domain.Repositories;
+using HomeApp.Plugins;
+using HomeApp.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -22,21 +26,34 @@ namespace HomeApp
 
         private static void ConfigureServices(ServiceCollection services)
         {
-            List<Type> plugins = PluginService.GetPluginTypes();
-
-            foreach (Type plugin in plugins)
-            {
-                _ = services.AddTransient(typeof(IPlugin), plugin);
-                _ = services.AddTransient(plugin);
-            }
-
-            _ = services.AddSingleton<MainWindow>();
-            _ = services.AddSingleton<PluginView>();
+            _ = RegisterPlugins(services);
+            _ = RegisterServices(services);
+            _ = RegisterViews(services);
         }
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
             _serviceProvider.GetService<MainWindow>().Show();
+        }
+
+        private static IServiceCollection RegisterPlugins(ServiceCollection services)
+        {
+            PluginService.GetPluginTypes()
+                .ForEach(plugin => services.AddTransient(typeof(IPlugin), plugin));
+
+            return services;
+        }
+
+        private static IServiceCollection RegisterServices(ServiceCollection services)
+        {
+            return services.AddDbContext<HomeAppContext>(options => options.UseInMemoryDatabase("DemoDb"))
+                .AddScoped<IUserRepository, UserRepository>();
+        }
+
+        private static IServiceCollection RegisterViews(ServiceCollection services)
+        {
+            return services.AddSingleton<MainWindow>()
+                           .AddSingleton<PluginView>();
         }
     }
 }
