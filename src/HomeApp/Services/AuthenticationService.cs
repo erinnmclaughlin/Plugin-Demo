@@ -1,6 +1,7 @@
-﻿using HomeApp.Domain.Models;
-using HomeApp.Domain.Repositories;
+﻿using HomeApp.Db;
+using HomeApp.Domain.Models;
 using HomeApp.Domain.Services;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.Threading.Tasks;
 
@@ -8,7 +9,7 @@ namespace HomeApp.Services
 {
     public class AuthenticationService : IAuthenticationService, INotifyPropertyChanged
     {
-        private readonly IUserRepository _userRepo;
+        private readonly HomeAppContext _context;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -34,14 +35,14 @@ namespace HomeApp.Services
             }
         }
 
-        public AuthenticationService(IUserRepository userRepo)
+        public AuthenticationService(HomeAppContext context)
         {
-            _userRepo = userRepo;
+            _context = context;
         }
 
         public async Task<HomeAppUser> Login()
         {
-            CurrentUser = await _userRepo.GetUserByUsername("emclaughlin");
+            CurrentUser = await _context.Users.FirstOrDefaultAsync(x => x.Username == "emclaughlin");
             _isLoggedIn = CurrentUser != null;
             return CurrentUser;
         }

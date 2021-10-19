@@ -1,8 +1,6 @@
 ﻿using HomeApp.Db;
-using HomeApp.Domain.Repositories;
 using HomeApp.Domain.Services;
 using HomeApp.Plugins;
-using HomeApp.Repositories;
 using HomeApp.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -55,8 +53,7 @@ namespace HomeApp
         private static IServiceCollection RegisterServices(ServiceCollection services)
         {
             return services.AddDbContext<HomeAppContext>(options => options.UseInMemoryDatabase("DemoDb"))
-                .AddScoped<IAuthenticationService, AuthenticationService>()
-                .AddScoped<IUserRepository, UserRepository>();
+                .AddScoped<IAuthenticationService, AuthenticationService>();
         }
 
         private static IServiceCollection RegisterViews(ServiceCollection services)
