@@ -32,7 +32,7 @@ namespace HomeApp
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
-            _serviceProvider.GetService<MainWindow>().Show();
+            _serviceProvider.GetRequiredService<MainWindow>().Show();
         }
 
         private static IServiceCollection RegisterPlugins(ServiceCollection services)
