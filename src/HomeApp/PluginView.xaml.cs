@@ -26,8 +26,8 @@ namespace HomeApp
 
         private void DataGridRow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            IPlugin plugin = (sender as DataGridRow).Item as IPlugin;
-            OnSelectPlugin.Invoke(plugin);
+            var plugin = (sender as DataGridRow)!.Item as IPlugin;
+            OnSelectPlugin?.Invoke(plugin);
         }
     }
 }
