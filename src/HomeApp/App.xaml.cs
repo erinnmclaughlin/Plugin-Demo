@@ -1,11 +1,12 @@
 ﻿using HomeApp.Db;
 using HomeApp.Domain.Repositories;
+using HomeApp.Domain.Services;
 using HomeApp.Plugins;
 using HomeApp.Repositories;
+using HomeApp.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Windows;
 
 namespace HomeApp
@@ -38,8 +39,15 @@ namespace HomeApp
 
         private static IServiceCollection RegisterPlugins(ServiceCollection services)
         {
-            PluginService.GetPluginTypes()
-                .ForEach(plugin => services.AddTransient(typeof(IPlugin), plugin));
+            PluginService.GetTypes<IPlugin>().ForEach(plugin => services.AddTransient(typeof(IPlugin), plugin));
+            PluginService.GetTypes<IPluginService>().ForEach(service => services.AddTransient(typeof(IPluginService), service));
+
+            var serviceProvider = services.BuildServiceProvider();
+
+            foreach (var service in serviceProvider.GetServices<IPluginService>())
+            {
+                service.RegisterPluginServices(services);
+            }
 
             return services;
         }
@@ -47,6 +55,7 @@ namespace HomeApp
         private static IServiceCollection RegisterServices(ServiceCollection services)
         {
             return services.AddDbContext<HomeAppContext>(options => options.UseInMemoryDatabase("DemoDb"))
+                .AddScoped<IAuthenticationService, AuthenticationService>()
                 .AddScoped<IUserRepository, UserRepository>();
         }
 

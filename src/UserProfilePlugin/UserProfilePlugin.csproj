@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0-windows</TargetFramework>
@@ -7,6 +7,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HomeApp.Domain\HomeApp.Domain.csproj" />
+    <ProjectReference Include="..\HomeApp.Plugins\HomeApp.Plugins.csproj" />
   </ItemGroup>
 
 </Project>

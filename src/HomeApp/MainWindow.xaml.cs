@@ -1,4 +1,4 @@
-﻿using HomeApp.Domain.Repositories;
+﻿using HomeApp.Domain.Services;
 using HomeApp.Plugins;
 using System.Windows;
 
@@ -9,14 +9,13 @@ namespace HomeApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly IAuthenticationService _authService;
         private readonly PluginView _pluginView;
-        private readonly IUserRepository _userRepo;
-        private bool _isLoggedIn;
 
-        public MainWindow(PluginView pluginView, IUserRepository userRepo)
+        public MainWindow(IAuthenticationService authService, PluginView pluginView)
         {
+            _authService = authService;
             _pluginView = pluginView;
-            _userRepo = userRepo;
 
             _pluginView.OnSelectPlugin += HandleSelectPlugin;
             InitializeComponent();
@@ -28,25 +27,22 @@ namespace HomeApp
 
         private void HandleSelectPlugin(IPlugin plugin)
         {
-            frame.Content = plugin;
+            frame.Content = plugin.Load();
         }
 
         private async void loginLogoutButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!_isLoggedIn)
-            {
-                // simulate login
-                var user = await _userRepo.GetUserByUsername("emclaughlin");
-                greetingText.Text = $"Hello, {user.FirstName} {user.LastName}";
-                loginLogoutButton.Content = "Logout";
-            }
-            else
+            if (_authService.IsLoggedIn)
             {
                 greetingText.Text = null;
                 loginLogoutButton.Content = "Login";
+                _authService.Logout();
+                return;
             }
 
-            _isLoggedIn = !_isLoggedIn;
+            var user = await _authService.Login();
+            greetingText.Text = $"Hello, {user.FirstName} {user.LastName}";
+            loginLogoutButton.Content = "Logout";
         }
     }
 }

@@ -8,23 +8,22 @@ namespace HomeApp.Plugins
 {
     public class PluginService
     {
-        public static List<Type> GetPluginTypes()
+        private static readonly string[] _files = Directory.GetFiles("Extensions", "*.dll");
+
+        public static List<Type> GetTypes<T>()
         {
             try
             {
-                string[] files = Directory.GetFiles("Extensions", "*.dll");
-
-                return files.SelectMany(x =>
+                return _files.SelectMany(x =>
                 {
                     Assembly assembly = Assembly.LoadFile(Path.Combine(Directory.GetCurrentDirectory(), x));
-                    return assembly.GetTypes().Where(t => typeof(IPlugin).IsAssignableFrom(t) && !t.IsInterface);
+                    return assembly.GetTypes().Where(t => typeof(T).IsAssignableFrom(t) && !t.IsInterface);
                 }).ToList();
             }
             catch
             {
                 return new List<Type>();
             }
-            
         }
     }
 }
